@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: mkeys
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mkeys-app
+  labels:
+    app: mkeys
+  namespace: mkeys
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mkeys
+  template:
+    metadata:
+      labels:
+        app: mkeys
+    spec:
+      initContainers:
+      # Clone Repository
+      - name: git-clone
+        image: alpine/git:2.52.0
+        command: ["/bin/sh", "-c"]
+        args:
+        - "git clone --branch main --depth 1 $(GIT_URL) /app"
+        volumeMounts:
+        - name: appdir
+          mountPath: "/app"
+        env:
+          - name: GIT_URL
+            valueFrom:
+              secretKeyRef:
+                name: git-url
+                key: repo-url
+
+      # Launch App
+      containers:
+      - name: app
+        image: php:8.2-apache
+        volumeMounts:
+        - name: appdir
+          mountPath: /var/www/html
+        ports:
+        - name: http
+          containerPort: 80
+          protocol: TCP
+
+      volumes:
+      - name: appdir
+        emptyDir: {}

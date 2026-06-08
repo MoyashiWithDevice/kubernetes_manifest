@@ -1,0 +1,29 @@
+# hashicorp/terraform:1.15
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: terraform
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: terraform-app
+  labels:
+    app: terraform
+  namespace: terraform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: terraform
+  template:
+    metadata:
+      labels:
+        app: terraform
+    spec:
+      containers:
+      - name: app
+        image: hashicorp/terraform:1.15
+        command: ["sleep", "3600"]
+      restartPolicy: Always

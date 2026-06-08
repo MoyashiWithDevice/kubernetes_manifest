@@ -1,0 +1,7 @@
+{
+    "description": "vault write auth/kubernetes/role/cloudflare",
+    "bound_service_account_names": "cloudflare-sa",
+    "bound_service_account_namespaces":"cloudflared",
+    "policies":"cloudflare",
+    "ttl":"24h"
+}

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: net-test
+spec: 
+  containers:
+  - name: tester
+    image: nicolaka/netshoot:latest
+    command: ["sleep", "3600"]
+  restartPolicy: OnFailure
