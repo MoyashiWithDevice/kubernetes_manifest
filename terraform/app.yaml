@@ -22,8 +22,50 @@ spec:
       labels:
         app: terraform
     spec:
+      initContainers:
+      - name: loader
+        image: alpine/git:2.52.0
+        args: ["clone", "--branch", "main", "--depth", "1", "$(GIT_URL)", "/app"]
+        volumeMounts:
+        - name: repository
+          mountPath: /app
+        env:
+        - name: GIT_URL
+          valueFrom:
+            secretKeyRef:
+              name: tf-secret
+              key: repo-url
+
       containers:
       - name: app
         image: hashicorp/terraform:1.15
         command: ["sleep", "3600"]
+        volumeMounts:
+        - name: repository
+          mountPath: /app
+        env:
+        - name: PROXMOX_VE_ENDPOINT
+          valueFrom:
+            secretKeyRef:
+              name: tf-secret
+              key: endpoint
+        - name: PROXMOX_VE_API_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: tf-secret
+              key: api-token
+        - name: PROXMOX_VE_SSH_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: tf-secret
+              key: ssh-username
+        - name: PROXMOX_VE_SSH_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: tf-secret
+              key: ssh-password
       restartPolicy: Always
+
+      volumes:
+      - name: repository
+        emptyDir: {}
