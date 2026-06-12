@@ -44,22 +44,22 @@ spec:
         - name: repository
           mountPath: /app
         env:
-        - name: PROXMOX_VE_ENDPOINT
+        - name: TF_VAR_PROXMOX_VE_ENDPOINT
           valueFrom:
             secretKeyRef:
               name: tf-secret
               key: endpoint
-        - name: PROXMOX_VE_API_TOKEN
+        - name: TF_VAR_PROXMOX_VE_API_TOKEN
           valueFrom:
             secretKeyRef:
               name: tf-secret
               key: api-token
-        - name: PROXMOX_VE_SSH_USERNAME
+        - name: TF_VAR_PROXMOX_VE_SSH_USERNAME
           valueFrom:
             secretKeyRef:
               name: tf-secret
               key: ssh-username
-        - name: PROXMOX_VE_SSH_PASSWORD
+        - name: TF_VAR_PROXMOX_VE_SSH_PASSWORD
           valueFrom:
             secretKeyRef:
               name: tf-secret
