@@ -519,6 +519,7 @@ runners:
               mount_path = "/manifest"
               read_only = false
               host_path = "/home/bababa/kubernetes_manifest"
+              mount_propagation = "None"
 
   ## Absolute path for an existing runner configuration file
   ## Can be used alongside "volumes" and "volumeMounts" to use an external config file
