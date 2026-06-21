@@ -1,0 +1,7 @@
+{
+    "description": "vault write auth/kubernetes/role/terraform",
+    "bound_service_account_names": "terraform-sa",
+    "bound_service_account_namespaces":"terraform",
+    "policies":"terraform",
+    "ttl":"24h"
+}
