@@ -5,17 +5,8 @@ pull-latest:
   image: alpine/git:latest
   script:
   - echo "node repository update is starting now..."
-  - cd /manifest
-  - git config --global --add safe.directory /manifest
-
-  - |
-    if [ ! -d ".git" ]; then
-      echo "cloning now..."
-      git clone $CI_REPOSITORY_URL .
-    else
-      echo "pulling now..."
-      git fetch origin
-      git reset --hard origin/main
-    fi
+  - kubectl rollout restart daemonset/kubernetes-manifest-updater -n gitlab
+  - kubectl rollout status daemonset/kubernetes-manifest-updater -n gitlab
+  - echo "completed"
   tags:
   - Kubernetes
