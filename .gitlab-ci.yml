@@ -4,10 +4,18 @@ pull-latest:
   stage: update-node
   image: alpine/git:latest
   script:
-  - echo "node repository is updating now..."
+  - echo "node repository update is starting now..."
   - cd /manifest
   - git config --global --add safe.directory /manifest
-  - git fetch origin
-  - git reset --hard origin/main
+
+  - |
+    if [ ! -d ".git"]; then
+      echo "cloning now..."
+      git clone $CI_REPOSITORY_URL .
+    else
+      echo "pulling now..."
+      git fetch origin
+      git reset --hard origin/main
+    fi
   tags:
   - Kubernetes
