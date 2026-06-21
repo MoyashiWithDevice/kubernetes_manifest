@@ -2,7 +2,7 @@ stages:
 - update-node
 pull-latest:
   stage: update-node
-  image: alpine/git:latest
+  image: alpine/kubectl:latest
   script:
   - echo "node repository update is starting now..."
   - kubectl rollout restart daemonset/kubernetes-manifest-updater -n gitlab
