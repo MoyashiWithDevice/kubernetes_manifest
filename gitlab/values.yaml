@@ -72,7 +72,7 @@ readinessProbe: {}
 ## The GitLab Server URL (with protocol) that want to register the runner against
 ## ref: https://docs.gitlab.com/runner/commands/index.html#gitlab-runner-register
 ##
-gitlabUrl: https://gitlab.newvia.net/
+gitlabUrl: https://gitlab.newvia.net
 
 ## The Runner Token for adding new Runners to the GitLab Server. This must
 ## be retrieved from your GitLab instance. It is the token of an already registered runner.
@@ -514,6 +514,7 @@ runners:
       [runners.kubernetes]
         namespace = "{{ default .Release.Namespace .Values.runners.jobNamespace }}"
         image = "alpine/git:latest"
+        service_account="gitlab-sa"
       [[runners.kubernetes.volumes.host_path]]
               name = "host-kubernetes-dir"
               mount_path = "/manifest"
