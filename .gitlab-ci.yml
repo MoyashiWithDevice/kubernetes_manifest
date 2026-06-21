@@ -7,7 +7,7 @@ pull-latest:
   - echo "node repository is updating now..."
   - cd /manifest
   - git config --global --add safe.directory /manifest
-  - get fetch origin
+  - git fetch origin
   - git reset --hard origin/main
   tags:
   - Kubernetes
