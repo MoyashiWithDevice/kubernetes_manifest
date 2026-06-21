@@ -200,7 +200,7 @@ rbac:
   ## Specifies whether a Role and RoleBinding should be created
   ## If this value is set to `true`, `serviceAccount.create` should also be set to either `true` or `false`
   ##
-  create: false
+  create: true
   ## Define the generated serviceAccountName when create is set to true
   ## It defaults to "gitlab-runner.fullname" if not provided
   ## DEPRECATED: Please use `serviceAccount.name` instead
