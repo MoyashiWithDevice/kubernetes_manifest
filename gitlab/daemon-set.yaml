@@ -14,7 +14,6 @@ spec:
       labels:
         name: kubernetes-manifest-updater
     spec:
-      serviceAccountName: gitlab-sa
       tolerations:
       - operator: Exists
         effect: NoSchedule
@@ -29,7 +28,7 @@ spec:
 
           if [ ! -d ".git" ]; then
             echo "cloning now..."
-            git clone $CI_REPOSITORY_URL .
+            git clone $KUBERNETES_REPO_URL .
           else
             echo "pulling now..."
             git fetch origin
@@ -42,6 +41,12 @@ spec:
         - name: host-dir
           mountPath: /manifest
           mountPropagation: None
+        env:
+        - name: KUBERNETES_REPO_URL
+          valueFrom:
+             secretKeyRef:
+              name: gitlab-runner-token
+              key: k8s-repo-url
       volumes:
       - name: host-dir
         hostPath:
