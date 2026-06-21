@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: kubernetes-manifest-updater
+  namespace: gitlab
+  labels:
+    app: kubernetes-manifest-updater
+spec:
+  selector:
+    matchLabels:
+      name: kubernetes-manifest-updater
+  template:
+    metadata:
+      labels:
+        name: kubernetes-manifest-updater
+    spec:
+      tolerations:
+      - operator: Exists
+        effect: NoSchedule
+      containers:
+      - name: git-puller
+        image: alpine/git:latest
+        command: ["/bin/sh", "-c"]
+        args:
+        - |
+          cd /manifest
+          git config --global --add safe.directory /manifest
+
+          if [ ! -d ".git" ]; then
+            echo "cloning now..."
+            git clone $CI_REPOSITORY_URL .
+          else
+            echo "pulling now..."
+            git fetch origin
+            git reset --hard origin/main
+          fi
+
+          echo "completed"
+          exec sleep infinity
+        volumeMounts:
+        - name: host-dir
+          mountPath: /manifest
+          mountPropagation: None
+      volumes:
+      - name: host-dir
+        hostPath:
+          path: /home/bababa/kubernetes_manifest
+          type: Directory
