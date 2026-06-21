@@ -9,4 +9,4 @@ pull-latest:
   - get fetch origin
   - git reset --hard origin/main
   tags:
-  - node-updater
+  - Kubernetes
