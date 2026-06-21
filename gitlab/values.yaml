@@ -495,6 +495,7 @@ service:
 ## Configuration for the Pods that the runner launches for each new job
 ##
 runners:
+  tags: "node-updater"
   ## Configure namespace where GitLab Runner job pods will be created
   ## By default, job pods use the Release namespace (.Release.Namespace)
   ## Set this value to run jobs in a different namespace than the runner deployment
@@ -513,6 +514,11 @@ runners:
       [runners.kubernetes]
         namespace = "{{ default .Release.Namespace .Values.runners.jobNamespace }}"
         image = "alpine"
+      [[runners.kubernetes.volumes.host_path]]
+              name = "host-kubernetes-dir"
+              mount_path = "/manifest"
+              read_only = false
+              host_path = "/home/bababa/kubernetes_manifest"
 
   ## Absolute path for an existing runner configuration file
   ## Can be used alongside "volumes" and "volumeMounts" to use an external config file

@@ -1,0 +1,12 @@
+stages:
+- update-node
+pull-latest:
+  stage: update-node
+  script:
+  - echo "node repository is updating now..."
+  - cd /manifest
+  - git config --global --add safe.directory /manifest
+  - get fetch origin
+  - git reset --hard origin/main
+  tags:
+  - node-updater
