@@ -9,7 +9,7 @@ pull-latest:
   - git config --global --add safe.directory /manifest
 
   - |
-    if [ ! -d ".git"]; then
+    if [ ! -d ".git" ]; then
       echo "cloning now..."
       git clone $CI_REPOSITORY_URL .
     else
