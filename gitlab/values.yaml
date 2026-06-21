@@ -216,29 +216,32 @@ rbac:
   ##
   ## ref: https://docs.gitlab.com/runner/executors/kubernetes/index.html#configure-runner-api-permissions
   ##
-  rules: []
-    # - resources: ["events"]
-    #   verbs: ["list", "watch"]
-    # - resources: ["namespaces"]
-    #   verbs: ["create", "delete"]
-    # - resources: ["pods"]
-    #   verbs: ["create","delete","get"]
-    # - apiGroups: [""]
-    #   resources: ["pods/attach","pods/exec"]
-    #   verbs: ["get","create","patch","delete"]
-    # - apiGroups: [""]
-    #   resources: ["pods/log"]
-    #   verbs: ["get","list"]
-    # - resources: ["secrets"]
-    #   verbs: ["create","delete","get","update"]
-    # - resources: ["serviceaccounts"]
-    #   verbs: ["get"]
-    # - resources: ["services"]
-    #   verbs: ["create","get"]
+  rules:
+    - resources: ["events"]
+      verbs: ["list", "watch"]
+    - resources: ["namespaces"]
+      verbs: ["create", "delete"]
+    - resources: ["pods"]
+      verbs: ["create","delete","get"]
+    - apiGroups: [""]
+      resources: ["pods/attach","pods/exec"]
+      verbs: ["get","create","patch","delete"]
+    - apiGroups: [""]
+      resources: ["pods/log"]
+      verbs: ["get","list"]
+    - resources: ["secrets"]
+      verbs: ["create","delete","get","update"]
+    - resources: ["serviceaccounts"]
+      verbs: ["get"]
+    - resources: ["services"]
+      verbs: ["create","get"]
+    - apiGroups: ["apps"]
+      resources: ["daemonsets"]
+      verbs: ["*"] 
 
   ## Run the gitlab-bastion container with the ability to deploy/manage containers of jobs
   ## cluster-wide or only within namespace
-  clusterWideAccess: false
+  clusterWideAccess: true
 
   ## Use the following Kubernetes Service Account name if RBAC is disabled in this Helm chart (see rbac.create)
   ## DEPRECATED: Please use `serviceAccount.name` instead
@@ -277,7 +280,7 @@ serviceAccount:
   ## Specifies whether a ServiceAccount should be created
   ##
   ## TODO: Set default to `false`
-  create: false
+  create: true
   ## The name of the ServiceAccount to use.
   ## If not set and create is `true`, a name is generated using the `gitlab-runner.fullname`` template
   ##
