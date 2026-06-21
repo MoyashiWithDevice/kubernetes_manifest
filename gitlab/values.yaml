@@ -513,7 +513,7 @@ runners:
     [[runners]]
       [runners.kubernetes]
         namespace = "{{ default .Release.Namespace .Values.runners.jobNamespace }}"
-        image = "alpine"
+        image = "ubuntu:24.04"
       [[runners.kubernetes.volumes.host_path]]
               name = "host-kubernetes-dir"
               mount_path = "/manifest"
