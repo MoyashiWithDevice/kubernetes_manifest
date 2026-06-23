@@ -35,7 +35,13 @@ spec:
           else
             echo "pulling now..."
             git fetch origin
-            git reset --hard origin/main
+
+            if [ -n "$(git status --porcelain)" ]; then
+              echo "working tree has local changes. skip update."
+              exec sleep infinity
+            else
+              git reset --hard origin/main
+            fi
           fi
 
           echo "completed"
