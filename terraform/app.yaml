@@ -39,7 +39,12 @@ spec:
       containers:
       - name: app
         image: hashicorp/terraform:1.15
-        command: ["sleep", "3600"]
+        workingDir: /app
+        command: ["/bin/sh", "-c"]
+        args:
+        - |
+          terraform init
+          sleep 3600
         volumeMounts:
         - name: repository
           mountPath: /app
