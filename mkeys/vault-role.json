@@ -1,7 +1,0 @@
-{
-    "description": "vault write auth/kubernetes/role/mkeys",
-    "bound_service_account_names": "mkeys-sa",
-    "bound_service_account_namespaces":"mkeys",
-    "policies":"mkeys",
-    "ttl":"24h"
-}

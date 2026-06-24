@@ -1,7 +1,0 @@
-{
-    "description": "vault write auth/kubernetes/role/keycloak",
-    "bound_service_account_names": "keycloak-sa",
-    "bound_service_account_namespaces":"keycloak",
-    "policies":"keycloak",
-    "ttl":"24h"
-}

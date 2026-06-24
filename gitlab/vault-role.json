@@ -1,7 +1,0 @@
-{
-    "description": "vault write auth/kubernetes/role/gitlab",
-    "bound_service_account_names": "gitlab-sa",
-    "bound_service_account_namespaces":"gitlab",
-    "policies":"gitlab",
-    "ttl":"24h"
-}
