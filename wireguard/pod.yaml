@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: wireguard-client
+  namespace: wireguard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wireguard
+  template:
+    metadata:
+      labels:
+        app: wireguard
+    spec:
+      initContainers:
+      - name: config-builder
+        image: bhgedigital/envsubst
+        env:
+        - name: WG_INT_PRIVATE_KEY
+          valueFrom:
+            secretKeyRef:
+              name: wg-secret
+              key: private_key
+        - name: WG_PEER_PUBLIC_KEY
+          valueFrom:
+            secretKeyRef:
+              name: wg-secret
+              key: public_key
+        - name: WG_PEER_ENDPOINT_IP
+          valueFrom:
+            secretKeyRef:
+              name: wg-secret
+              key: server_ip
+        - name: WG_PEER_ENDPOINT_PORT
+          valueFrom:
+            secretKeyRef:
+              name: wg-secret
+              key: server_port
+        volumeMounts:
+          - name: config-template
+            mountPath: /tmp/template
+          - name: wg-config-dir
+            mountPath: /config/wg_confs
+        command: ["sh", "-c"]
+        args:
+          - "envsubst < /tmp/template/wg0.conf.template > /config/wg_confs/wg0.conf"
+      containers:
+      - name: wg-pod
+        image: linuxserver/wireguard:1.0.20250521
+        securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+        volumeMounts:
+        - name: wg-config-dir
+          mountPath: /config/wg_confs
+      volumes:
+      - name: config-template
+        configMap:
+          name: wg-conf
+      - name: wg-config-dir
+        emptyDir: {}
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wg-conf
+  namespace: wireguard
+data:
+  wg0.conf.template: |-
+    [Interface]
+    PrivateKey = ${WG_INT_PRIVATE_KEY}
+    Address = 192.168.255.3/24
+    ListenPort = 51821
+    DNS = 172.32.0.5
+    
+    PostUp = iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -s 192.168.255.0/24 -o eth0 -j MASQUERADE
+    PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACCEPT; iptables -t nat -D POSTROUTING -s 192.168.255.0/24 -o eth0 -j MASQUERADE
+
+    [Peer]
+    PublicKey = ${WG_PEER_PUBLIC_KEY}
+    AllowedIPs = 192.168.255.0/24
+    Endpoint = ${WG_PEER_ENDPOINT_IP}:${WG_PEER_ENDPOINT_PORT}
+    PersistentKeepalive = 25
