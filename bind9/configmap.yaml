@@ -18,6 +18,14 @@ data:
       file "/etc/bind/db.0.32.172";
     };
 
+  named.conf.options: |-
+    options{
+      directory "/var/cache/bind";
+      allow-query{ 127.0.0.1; 10.0.0.0/8; 172.31.0.0/24; 172.32.0.0/24; };
+      allow-recursion { 127.0.0.1; 10.0.0.0/8; 172.31.0.0/24; 172.32.0.0/24; };
+      allow-query-cache { 127.0.0.1; 10.0.0.0/8; 172.31.0.0/24; 172.32.0.0/24;};
+    };
+
   db.local.newvia.net: |-
     ;
     ; BIND data file for local.newvia.net

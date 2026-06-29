@@ -56,6 +56,9 @@ spec:
           mountPath: /etc/bind/named.conf.local
           subPath: named.conf.local
         - name: config-dir
+          mountPath: /etc/bind/named.conf.options
+          subPath: named.conf.options
+        - name: config-dir
           mountPath: /etc/bind/db.local.newvia.net
           subPath: db.local.newvia.net
         - name: config-dir
