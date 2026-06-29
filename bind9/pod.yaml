@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: bind9
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bind9-service
+  namespace: bind9
+  labels:
+    app: bind9
+spec:
+  selector:
+    app: bind9
+  ports:
+  - protocol: TCP
+    port: 53
+    targetPort: 53
+    name: bind9-tcp
+  - protocol: UDP
+    port: 53
+    targetPort: 53
+    name: bind9
+  type: LoadBalancer
+  loadBalancerIP: 172.31.0.232
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bind9-deployment
+  namespace: bind9
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: bind9
+  template:
+    metadata:
+      labels:
+        app: bind9
+    spec:
+      containers:
+      - name: bind9
+        image: ubuntu/bind9:edge
+        env:
+        - name: TZ
+          value: JST
+        ports:
+        - containerPort: 53
+          protocol: TCP
+        - containerPort: 53
+          protocol: UDP
+        volumeMounts:
+        - name: config-dir
+          mountPath: /etc/bind/named.conf.local
+          subPath: named.conf.local
+        - name: config-dir
+          mountPath: /etc/bind/db.local.newvia.net
+          subPath: db.local.newvia.net
+        - name: config-dir
+          mountPath: /etc/bind/db.0.31.172
+          subPath: db.0.31.172
+        - name: config-dir
+          mountPath: /etc/bind/db.0.32.172
+          subPath: db.0.32.172
+        workingDir: /etc/bind
+      volumes:
+      - name: config-dir
+        configMap:
+          name: named-conf

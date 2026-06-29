@@ -1,0 +1,76 @@
+apiVersion: v1
+kind: ConfigMap
+metadata: 
+  name: named-conf
+  namespace: bind9
+data:
+  named.conf.local: |-
+    zone "local.newvia.net"{
+      type master;
+      file "/etc/bind/db.local.newvia.net";
+    };
+    zone "0.31.172.in-addr.arpa" in{
+      type master;
+      file "/etc/bind/db.0.31.172";
+    };
+    zone "0.32.172.in-addr.arpa" in{
+      type master;
+      file "/etc/bind/db.0.32.172";
+    };
+
+  db.local.newvia.net: |-
+    ;
+    ; BIND data file for local.newvia.net
+    ;
+    $TTL 604800
+    @   IN  SOA   local.newvia.net. root.local.newvia.net.(
+                  20260629  ; Serial
+                  604800    ; Refresh
+                  86400     ; Retry
+                  2419200   ; Expire
+                  604800    ; Negative Cache TTL
+    )
+
+    @   IN  NS    ns.local.newvia.net.
+    @   IN  A     172.32.0.232
+    ns  IN  A     172.32.0.232
+    kube-ctrl IN  A   172.31.0.15
+    kube-ctrl IN  A   172.31.0.16
+    kube-ctrl IN  A   172.31.0.17
+    kube-2 IN  A   172.31.0.15
+    kube IN  A   172.31.0.16
+    kube-3 IN  A   172.31.0.17
+    gitlab  IN  A   172.32.0.70
+
+  db.0.31.172: |-
+    ;
+    ; BIND data file for 172.31.0
+    ;
+    $TTL 604800
+    @   IN  SOA   local.newvia.net. root.local.newvia.net.(
+                  20260629  ; Serial
+                  604800    ; Refresh
+                  86400     ; Retry
+                  2419200   ; Expire
+                  604800    ; Negative Cache TTL
+    )
+    @   IN  NS    ns.local.newvia.net.
+    15  IN  PTR   kube-2.local.newvia.net.
+    16  IN  PTR   kube.local.newvia.net.
+    17  IN  PTR   kube-3.local.newvia.net.
+
+  db.0.32.172: |-
+    ;
+    ; BIND data file for 172.32.0
+    ;
+    $TTL 604800
+    @   IN  SOA   local.newvia.net. root.local.newvia.net.(
+                  20260629  ; Serial
+                  604800    ; Refresh
+                  86400     ; Retry
+                  2419200   ; Expire
+                  604800    ; Negative Cache TTL
+    )
+    @   IN  NS    ns.local.newvia.net.
+    232 IN  PTR   ns.local.newvia.net.
+    70  IN  PTR   gitlab.local.newvia.net.
