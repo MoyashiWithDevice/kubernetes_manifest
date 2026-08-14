@@ -20,7 +20,7 @@ spec:
         image: alpine/curl:8.20.0
         command: ["sh", "-c"]
         args:
-        - "curl -s http://vault.vault:8200/v1/pki/cert/ca/raw/pem -o /etc/nginx/ssl/backend_ca.pem && echo >> /etc/nginx/ssl/backend_ca.pem"
+        - "curl -sk https://vault-0.vault-internal.vault.svc.cluster.local:8200/v1/pki/cert/ca/raw/pem -o /etc/nginx/ssl/backend_ca.pem && echo >> /etc/nginx/ssl/backend_ca.pem"
         volumeMounts:
         - name: cert-volume
           mountPath: /etc/nginx/ssl
