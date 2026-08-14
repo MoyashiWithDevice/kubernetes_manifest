@@ -1,10 +1,13 @@
-apiVersion: v1
-kind: Pod
+apiVersion: batch/v1
+kind: Job
 metadata:
   name: net-test
-spec: 
-  containers:
-  - name: tester
-    image: nicolaka/netshoot:latest
-    command: ["sleep", "3600"]
-  restartPolicy: OnFailure
+spec:
+  template:
+    spec: 
+      containers:
+      - name: tester
+        image: nicolaka/netshoot:latest
+        command: ["sleep", "3600"]
+      restartPolicy: OnFailure
+  ttlSecondsAfterFinished: 10
