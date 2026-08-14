@@ -1,12 +1,24 @@
 stages:
-- update-node
+- update
+
 pull-latest:
-  stage: update-node
+  stage: update
   image: alpine/kubectl:latest
   script:
   - echo "node repository update is starting now..."
   - kubectl rollout restart daemonset/kubernetes-manifest-updater -n gitlab
   - kubectl rollout status daemonset/kubernetes-manifest-updater -n gitlab
+  - echo "completed"
+  tags:
+  - Kubernetes
+
+restart-ansible:
+  stage: update
+  image: alpine/kubectl:latest
+  script:
+  - echo "ansible pod restarting..."
+  - kubectl rollout restart deployment/ansible -n ansible
+  - kubectl rollout status deployment/ansible -n ansible
   - echo "completed"
   tags:
   - Kubernetes
