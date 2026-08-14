@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ansible
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ansible
+  namespace: ansible
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ansible
+  template:
+    metadata:
+      name: ansible
+      namespace: ansible
+      labels:
+        app: ansible
+    spec:
+      serviceAccountName: ansible-sa
+      initContainers:
+      # Clone Repository
+      - name: git-clone
+        image: alpine/git:2.52.0
+        command: ["/bin/sh", "-c"]
+        args:
+        - "git clone --branch main --depth 1 $(GIT_URL) /app"
+        volumeMounts:
+        - name: appdir
+          mountPath: "/app"
+        env:
+          - name: GIT_URL
+            valueFrom:
+              secretKeyRef:
+                name: git-url
+                key: repo-url
+
+      containers:
+      - name: ansible-executor
+        image: alpine/ansible:2.21.0
+        command: ["/bin/sh", "-c"]
+        args: 
+        - "sleep infinity"
+        volumeMounts:
+        - name: appdir
+          mountPath: "/app"
+      volumes:
+      - name: appdir
+        emptyDir: {}
+
