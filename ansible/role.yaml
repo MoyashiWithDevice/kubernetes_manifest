@@ -1,0 +1,55 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: ansible-backend-role
+  namespace: ansible
+rules:
+- apiGroups: [""]
+  resources: ["secrets"]
+  verbs: ["get", "list", "create", "update", "delete"]
+- apiGroups: ["coordination.k8s.io"]
+  resources: ["leases"]
+  verbs: ["get", "list", "create", "update", "delete"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: ansible-backend-rolebinding
+  namespace: ansible
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: ansible
+roleRef:
+  kind: Role
+  name: ansible-backend-role
+  apiGroup: rbac.authorization.k8s.io
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: ansible-gitlab-runner
+  namespace: ansible
+rules:
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["get", "patch"]
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: ansible-gitlab-runner-rolebinding
+  namespace: ansible
+subjects:
+- kind: ServiceAccount
+  name: gitlab-sa
+  namespace: gitlab
+roleRef:
+  kind: Role
+  name: ansible-gitlab-runner
+  apiGroup: rbac.authorization.k8s.io
