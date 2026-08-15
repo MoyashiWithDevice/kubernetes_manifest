@@ -44,8 +44,7 @@ spec:
         command: ["/bin/sh", "-c"]
         args:
         - |
-          ansible-galaxy collection install -r /app/requirements.yml 
-          && sleep infinity
+          ansible-galaxy collection install -r /app/requirements.yml && sleep infinity
         volumeMounts:
         - name: appdir
           mountPath: "/app"
