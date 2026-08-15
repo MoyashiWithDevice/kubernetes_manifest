@@ -11,14 +11,3 @@ pull-latest:
   - echo "completed"
   tags:
   - Kubernetes
-
-restart-ansible:
-  stage: update
-  image: alpine/kubectl:latest
-  script:
-  - echo "ansible pod restarting..."
-  - kubectl rollout restart deployment/ansible -n ansible
-  - kubectl rollout status deployment/ansible -n ansible
-  - echo "completed"
-  tags:
-  - Kubernetes
