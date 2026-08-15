@@ -43,8 +43,9 @@ spec:
       - name: ansible-executor
         image: alpine/ansible:2.21.0
         command: ["/bin/sh", "-c"]
-        args: 
-        - "sleep infinity"
+        args: |
+        - "ansible-galaxy collection install -r /app/requirements.yml"
+          "sleep infinity"
         volumeMounts:
         - name: appdir
           mountPath: "/app"
