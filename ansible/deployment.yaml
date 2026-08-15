@@ -38,14 +38,14 @@ spec:
               secretKeyRef:
                 name: git-url
                 key: repo-url
-
       containers:
       - name: ansible-executor
         image: alpine/ansible:2.21.0
         command: ["/bin/sh", "-c"]
-        args: |
-        - "ansible-galaxy collection install -r /app/requirements.yml"
-          "sleep infinity"
+        args:
+        - |
+          ansible-galaxy collection install -r /app/requirements.yml 
+          && sleep infinity
         volumeMounts:
         - name: appdir
           mountPath: "/app"
