@@ -45,6 +45,9 @@ spec:
         args:
         - |
           ansible-galaxy collection install -r /app/requirements.yml && sleep infinity
+        env:
+        - name: ANSIBLE_CONFIG
+          value: "/app/ansible.cfg"
         volumeMounts:
         - name: appdir
           mountPath: "/app"
