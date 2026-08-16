@@ -51,6 +51,7 @@ spec:
         volumeMounts:
         - name: appdir
           mountPath: "/app"
+        workingDir: "/app"
       volumes:
       - name: appdir
         emptyDir: {}
