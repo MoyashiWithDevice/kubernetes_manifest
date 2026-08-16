@@ -49,6 +49,11 @@ data:
     kube IN  A   172.31.0.16
     kube-3 IN  A   172.31.0.17
     gitlab  IN  A   172.32.0.70
+    proxmox IN  A   172.32.0.101
+    l3sw-1  IN  A   172.31.0.1
+    l3sw-1  IN  A   172.32.0.1
+    gw      IN  A   172.31.0.254
+    gw      IN  A   172.32.0.254
 
   db.0.31.172: |-
     ;
@@ -63,10 +68,12 @@ data:
                   604800    ; Negative Cache TTL
     )
     @   IN  NS    ns.local.newvia.net.
+    1   IN  PTR   l3sw.local.newvia.net.
     15  IN  PTR   kube-2.local.newvia.net.
     16  IN  PTR   kube.local.newvia.net.
     17  IN  PTR   kube-3.local.newvia.net.
     232 IN  PTR   ns.local.newvia.net.
+    254 IN  PTR   gw.local.newvia.net.
 
   db.0.32.172: |-
     ;
@@ -81,4 +88,7 @@ data:
                   604800    ; Negative Cache TTL
     )
     @   IN  NS    ns.local.newvia.net.
+    1   IN  PTR   l3sw.local.newvia.net.
     70  IN  PTR   gitlab.local.newvia.net.
+    101 IN  PTR   proxmox.local.newvia.net.
+    254 IN  PTR   gw.local.newvia.net.
