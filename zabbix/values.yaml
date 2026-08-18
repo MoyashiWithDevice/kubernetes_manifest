@@ -210,7 +210,7 @@ zabbixServer:
     externalIPs: []
     # -- Only applies to Service Type: LoadBalancer. This feature depends on whether the underlying cloud-provider supports specifying
     # the loadBalancerIP when a load balancer is created. This field will be ignored if the cloud-provider does not support the feature.
-    loadBalancerIP: "172.31.0.231"
+    loadBalancerIP: "172.31.10.231"
     # -- If specified and supported by the platform, this will restrict traffic through the cloud-provider load-balancer
     # will be restricted to the specified client IPs. This field will be ignored if the cloud-provider does not support the feature.
     loadBalancerSourceRanges: []
@@ -365,7 +365,7 @@ zabbixProxy:
   # -- Zabbix Proxy hostname. Case sensitive hostname. If not defined the pod name will be used
   ZBX_HOSTNAME: zabbix-proxy  # This variable is unique, case sensitive hostname.
   # -- Zabbix Server host
-  ZBX_SERVER_HOST: "zabbix-zabbix-server,172.31.0.15,172.31.0.231,0.0.0.0/0"
+  ZBX_SERVER_HOST: "zabbix-zabbix-server,172.31.10.15,172.31.10.231,0.0.0.0/0"
   # -- Zabbix Server port
   ZBX_SERVER_PORT: 10051
   # ZBX_LOADMODULE: dummy1.so,dummy2.so # The variable is list of comma separated loadable Zabbix modules. It works with volume /var/lib/zabbix/modules.
@@ -473,7 +473,7 @@ zabbixAgent:
     pullSecrets: []
   # -- Zabbix Server host
   ZBX_SERVER_HOST: "zabbix-zabbix-server.zabbix.svc.cluster.local"
-  ZBX_PASSIVESERVERS: "172.31.0.0/16,127.0.0.1"
+  ZBX_PASSIVESERVERS: "172.31.10.0/16,127.0.0.1"
 
   # -- Zabbix Server port
   ZBX_SERVER_PORT: 10051

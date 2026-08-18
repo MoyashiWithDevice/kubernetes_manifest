@@ -74,7 +74,7 @@ data:
     PrivateKey = ${WG_INT_PRIVATE_KEY}
     Address = 192.168.255.3/24
     ListenPort = 51821
-    DNS = 172.31.0.232
+    DNS = 172.31.10.232
     
     PostUp = iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -s 192.168.255.0/24 -o eth0 -j MASQUERADE
     PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACCEPT; iptables -t nat -D POSTROUTING -s 192.168.255.0/24 -o eth0 -j MASQUERADE

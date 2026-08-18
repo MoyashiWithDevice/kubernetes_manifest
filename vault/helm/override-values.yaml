@@ -125,6 +125,6 @@ server:
 ui:
   enabled: true
   serviceType: "LoadBalancer"
-  loadBalancerIP: 172.31.0.230
+  loadBalancerIP: 172.31.10.230
   serviceNodePort: null
   externalPort: 8200

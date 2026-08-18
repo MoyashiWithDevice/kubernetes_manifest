@@ -9,21 +9,21 @@ data:
       type master;
       file "/etc/bind/db.local.newvia.net";
     };
-    zone "0.31.172.in-addr.arpa" in{
+    zone "10.31.172.in-addr.arpa" in{
       type master;
-      file "/etc/bind/db.0.31.172";
+      file "/etc/bind/db.10.31.172";
     };
-    zone "0.32.172.in-addr.arpa" in{
+    zone "20.31.172.in-addr.arpa" in{
       type master;
-      file "/etc/bind/db.0.32.172";
+      file "/etc/bind/db.20.31.172";
     };
 
   named.conf.options: |-
     options{
       directory "/var/cache/bind";
-      allow-query{ 127.0.0.1; 10.0.0.0/8; 172.31.0.0/24; 172.32.0.0/24; };
-      allow-recursion { 127.0.0.1; 10.0.0.0/8; 172.31.0.0/24; 172.32.0.0/24; };
-      allow-query-cache { 127.0.0.1; 10.0.0.0/8; 172.31.0.0/24; 172.32.0.0/24;};
+      allow-query{ 127.0.0.1; 10.0.0.0/8; 172.31.10.0/24; 172.31.20.0/24; };
+      allow-recursion { 127.0.0.1; 10.0.0.0/8; 172.31.10.0/24; 172.31.20.0/24; };
+      allow-query-cache { 127.0.0.1; 10.0.0.0/8; 172.31.10.0/24; 172.31.20.0/24;};
     };
 
   db.local.newvia.net: |-
@@ -40,24 +40,24 @@ data:
     )
 
     @   IN  NS    ns.local.newvia.net.
-    @   IN  A     172.31.0.232
-    ns  IN  A     172.31.0.232
-    kube-ctrl IN  A   172.31.0.15
-    kube-ctrl IN  A   172.31.0.16
-    kube-ctrl IN  A   172.31.0.17
-    kube-2 IN  A   172.31.0.15
-    kube IN  A   172.31.0.16
-    kube-3 IN  A   172.31.0.17
-    gitlab  IN  A   172.32.0.70
-    proxmox IN  A   172.32.0.101
-    l3sw-1  IN  A   172.31.0.1
-    l3sw-1  IN  A   172.32.0.1
-    gw      IN  A   172.31.0.254
-    gw      IN  A   172.32.0.254
+    @   IN  A     172.31.10.232
+    ns  IN  A     172.31.10.232
+    kube-ctrl IN  A   172.31.10.15
+    kube-ctrl IN  A   172.31.10.16
+    kube-ctrl IN  A   172.31.10.17
+    kube-2 IN  A   172.31.10.15
+    kube IN  A   172.31.10.16
+    kube-3 IN  A   172.31.10.17
+    gitlab  IN  A   172.31.20.70
+    proxmox IN  A   172.31.100.101
+    l3sw-1  IN  A   172.31.10.1
+    l3sw-1  IN  A   172.31.20.1
+    gw      IN  A   172.31.10.254
+    gw      IN  A   172.31.20.254
 
-  db.0.31.172: |-
+  db.10.31.172: |-
     ;
-    ; BIND data file for 172.31.0
+    ; BIND data file for 172.31.10
     ;
     $TTL 604800
     @   IN  SOA   local.newvia.net. root.local.newvia.net.(
@@ -75,9 +75,9 @@ data:
     232 IN  PTR   ns.local.newvia.net.
     254 IN  PTR   gw.local.newvia.net.
 
-  db.0.32.172: |-
+  db.20.31.172: |-
     ;
-    ; BIND data file for 172.32.0
+    ; BIND data file for 172.31.20
     ;
     $TTL 604800
     @   IN  SOA   local.newvia.net. root.local.newvia.net.(

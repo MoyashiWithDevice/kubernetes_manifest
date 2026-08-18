@@ -23,7 +23,7 @@ spec:
     targetPort: 53
     name: bind9
   type: LoadBalancer
-  loadBalancerIP: 172.31.0.232
+  loadBalancerIP: 172.31.10.232
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -62,11 +62,11 @@ spec:
           mountPath: /etc/bind/db.local.newvia.net
           subPath: db.local.newvia.net
         - name: config-dir
-          mountPath: /etc/bind/db.0.31.172
-          subPath: db.0.31.172
+          mountPath: /etc/bind/db.10.31.172
+          subPath: db.10.31.172
         - name: config-dir
-          mountPath: /etc/bind/db.0.32.172
-          subPath: db.0.32.172
+          mountPath: /etc/bind/db.20.31.172
+          subPath: db.20.31.172
         workingDir: /etc/bind
       volumes:
       - name: config-dir
