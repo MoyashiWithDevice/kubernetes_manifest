@@ -20,6 +20,14 @@ spec:
       namespace: ansible
       labels:
         app: ansible
+      annotations:
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/role: "ansible"
+        vault.hashicorp.com/agent-inject-secret-vault-password: "kv/data/ansible"
+        vault.hashicorp.com/agent-inject-template-vault-password: |
+          {{- with secret "kv/data/ansible" -}}
+          {{ .Data.data.vault-password }}
+          {{- end }}
     spec:
       serviceAccountName: ansible-sa
       initContainers:
@@ -48,11 +56,15 @@ spec:
         env:
         - name: ANSIBLE_CONFIG
           value: "/app/ansible.cfg"
+        - name: ANSIBLE_VAULT_PASSWORD_FILE
+          value: "/vault/secrets/vault-password"
         volumeMounts:
         - name: appdir
           mountPath: "/app"
         workingDir: "/app"
       volumes:
       - name: appdir
+        emptyDir: {}
+      - name: secretdir
         emptyDir: {}
 
