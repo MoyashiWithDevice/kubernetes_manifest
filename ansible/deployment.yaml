@@ -28,6 +28,8 @@ spec:
           {{- with secret "kv/data/ansible" -}}
           {{ .Data.data.vault-password }}
           {{- end }}
+        vault.hashicorp.com/tls-secret: "vault-ha-tls"
+        vault.hashicorp.com/ca-cert: "/vault/tls/ca.crt"
     spec:
       serviceAccountName: ansible-sa
       initContainers:
