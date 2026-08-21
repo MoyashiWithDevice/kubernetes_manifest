@@ -81,6 +81,8 @@ spec:
         - name: vault-secrets
           mountPath: /root/.ssh/id_rsa
           subPath: id_rsa
+        - name: vault-secrets
+          mountPath: /vault/secrets
         workingDir: "/app"
       volumes:
       - name: appdir
