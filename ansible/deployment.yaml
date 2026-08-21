@@ -87,3 +87,5 @@ spec:
       volumes:
       - name: appdir
         emptyDir: {}
+      - name: vault-secrets
+        emptyDir: {}
