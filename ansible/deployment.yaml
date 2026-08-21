@@ -23,10 +23,10 @@ spec:
       annotations:
         vault.hashicorp.com/agent-inject: "true"
         vault.hashicorp.com/role: "ansible"
-        vault.hashicorp.com/agent-inject-secret-vault-password: "kv/data/ansible"
-        vault.hashicorp.com/agent-inject-template-vault-password: |
+        vault.hashicorp.com/agent-inject-secret-vault_password: "kv/data/ansible"
+        vault.hashicorp.com/agent-inject-template-vault_password: |
           {{- with secret "kv/data/ansible" -}}
-          {{ .Data.data.vault-password }}
+          {{ .Data.data.vault_password }}
           {{- end }}
         vault.hashicorp.com/tls-secret: "vault-ha-tls"
         vault.hashicorp.com/ca-cert: "/vault/tls/ca.crt"
@@ -59,7 +59,7 @@ spec:
         - name: ANSIBLE_CONFIG
           value: "/app/ansible.cfg"
         - name: ANSIBLE_VAULT_PASSWORD_FILE
-          value: "/vault/secrets/vault-password"
+          value: "/vault/secrets/vault_password"
         volumeMounts:
         - name: appdir
           mountPath: "/app"
@@ -67,6 +67,3 @@ spec:
       volumes:
       - name: appdir
         emptyDir: {}
-      - name: secretdir
-        emptyDir: {}
-
