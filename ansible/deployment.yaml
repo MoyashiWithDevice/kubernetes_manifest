@@ -37,7 +37,7 @@ spec:
         vault.hashicorp.com/agent-inject-secret-ssh_signed_key: "kv/data/ansible"
         vault.hashicorp.com/secret-volume-path-ssh_signed_key: "/etc/ssh"
         vault.hashicorp.com/agent-inject-file-ssh_signed_key: "id_rsa-cert.pub"
-        vault.hashicorp.com/agent-inject-perms-ssh_signed_key: 0400
+        vault.hashicorp.com/agent-inject-perms-ssh_signed_key: "0400"
         vault.hashicorp.com/agent-inject-template-ssh_signed_key: |
           {{- with secret "kv/data/ansible" -}}
           {{ .Data.data.signed_key }}
@@ -45,7 +45,7 @@ spec:
         vault.hashicorp.com/agent-inject-secret-ssh_private_key: "kv/data/ansible"
         vault.hashicorp.com/secret-volume-path-ssh_private_key: "/etc/ssh"
         vault.hashicorp.com/agent-inject-file-ssh_private_key: "id_rsa"
-        vault.hashicorp.com/agent-inject-perms-ssh_private_key: 0400
+        vault.hashicorp.com/agent-inject-perms-ssh_private_key: "0400"
         vault.hashicorp.com/agent-inject-template-ssh_private_key: |
           {{- with secret "kv/data/ansible" -}}
           {{ .Data.data.private_key }}
