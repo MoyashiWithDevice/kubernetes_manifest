@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: ansible-svc
-  namespace: ansible
-spec:
-  externalTrafficPolicy: Local
-  selector:
-    app: ansible
