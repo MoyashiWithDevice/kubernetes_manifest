@@ -1,0 +1,18 @@
+# unused manifest
+# use kube-vip egress instead
+apiVersion: cilium.io/v2
+kind: CiliumEgressGatewayPolicy
+metadata:
+  name: egress-policy
+spec:
+  selectors:
+    - podSelector:
+        matchLabels:
+          app: ansible
+  destinationCIDRs:
+    - "172.31.100.0/24"
+  egressGateway:
+    nodeSelector:
+      matchLabels:
+        egress-gateway: true
+    egressIP: 172.31.10.251
