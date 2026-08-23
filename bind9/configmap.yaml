@@ -49,6 +49,7 @@ data:
     kube-2 IN  A   172.31.10.16
     kube-3 IN  A   172.31.10.17
     vault   IN  A   172.31.10.230
+    ansible-egress  IN  A 172.31.10.251
     gitlab  IN  A   172.31.20.70
     proxmox IN  A   172.31.100.101
     l3sw-1  IN  A   172.31.10.1
@@ -75,6 +76,7 @@ data:
     17  IN  PTR   kube-3.local.newvia.net.
     230 IN  PTR   vault.local.newvia.net.
     232 IN  PTR   ns.local.newvia.net.
+    251 IN  PTR   ansible-egress.local.newvia.net
     254 IN  PTR   gw.local.newvia.net.
 
   db.20.31.172: |-
