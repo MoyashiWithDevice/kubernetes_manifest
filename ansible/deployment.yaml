@@ -21,6 +21,12 @@ spec:
       labels:
         app: ansible
       annotations:
+        kube-vip.io/egress: "true"
+        kube-vip.io/egress-internal: "true"
+        kube-vip.io/loadbalancerIPs: 172.31.10.251
+        kube-vip.io/egress-allowed-networks: 172.31.100.0/24
+        kube-vip.io/egress-destination-ports: tcp:22
+        
         vault.hashicorp.com/agent-inject: "true"
         vault.hashicorp.com/role: "ansible"
         vault.hashicorp.com/agent-inject-secret-vault_password: "kv/data/ansible"
@@ -47,6 +53,7 @@ spec:
         vault.hashicorp.com/tls-secret: "vault-ha-tls"
         vault.hashicorp.com/ca-cert: "/vault/tls/ca.crt"
     spec:
+      externalTrafficPolicy: Local
       serviceAccountName: ansible-sa
       initContainers:
       # Clone Repository
