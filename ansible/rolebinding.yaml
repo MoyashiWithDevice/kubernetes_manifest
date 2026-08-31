@@ -12,7 +12,6 @@ subjects:
 - kind: ServiceAccount
   name: stackstorm-ha
   namespace: stackstorm
-  apiGroup: rbac.authorization.k8s.io
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -21,9 +20,9 @@ metadata:
   name: ansible-handler
   namespace: ansible
 rules:
-- apiGroup: [""]
+- apiGroups: [""]
   resources: ["pods", "pods/exec"]
   verbs: ["get", "list", "watch", "create"]
-- apiGroup: ["apps"]
+- apiGroups: ["apps"]
   resources: ["deployments"]
   verbs: ["get", "list", "watch"]
