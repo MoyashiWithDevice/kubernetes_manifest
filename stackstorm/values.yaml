@@ -732,11 +732,29 @@ st2actionrunner:
   # k8s will run the script in the st2 container in parallel with the ENTRYPOINT.
   # The pod will not be marked as "running" until this script completes successfully.
   # see: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/
+  # add Self
   postStartScript: |
-    # add Self
+    #!/bin/bash
+    set -e
+    apt-get update && apt-get install -y git
+    
     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
     chmod +x kubectl
     mv kubectl /usr/local/bin/
+    
+    PACKS_DIR="/opt/stackstorm/packs/my-workflows"
+    mkdir -p /opt/stackstorm/packs
+    
+    if [ -d "$PACKS_DIR/.git" ]; then
+      echo "Pulling latest workflows..."
+      cd "$PACKS_DIR" && git pull || true
+    else
+      echo "Cloning workflows from Repository..."
+      git clone https://gitlab.newvia.net/bababa_grp/stackstorm_workflow.git "$PACKS_DIR"
+    fi
+    
+    st2ctl reload --register-packs || true
+
   # mount extra volumes on the st2actionrunner pods (primarily useful for k8s-provisioned secrets)
   ## Note that Helm templating is supported in 'mount' and 'volume'
   extra_volumes: []
@@ -853,21 +871,7 @@ st2client:
   # k8s will run the script in the st2 container in parallel with the ENTRYPOINT.
   # The pod will not be marked as "running" until this script completes successfully.
   # see: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/
-  # add Self
-  postStartScript: |
-    #!/bin/bash
-    set -e
-    PACKS_DIR="/opt/stackstorm/packs/my-workflows"
-
-    if [-d "$PACKS_DIR/.git"]; then
-      echo "Pulling latest workflows..."
-      cd "$PACKS_DIR" && git pull
-    else
-      echo "Cloning workflows from Repository..."
-      git clone https://gitlab.newvia.net/bababa_grp/stackstorm_workflow.git "$PACKS_DIR"
-    fi
-    st2ctl reload --register-packs
-
+  postStartScript: ""
   # mount extra volumes on the st2client pod (primarily useful for k8s-provisioned secrets)
   ## Note that Helm templating is supported in 'mount' and 'volume'
   extra_volumes: []
