@@ -176,15 +176,15 @@ st2:
     # Please consult the documentation for your cluster's storage solution.
     # Some generic examples are listed under st2.packs.volumes.packs below.
     volumes:
-      enabled: true
+      enabled: false
 
-      packs: 
+      packs: {}
         # mounted to /opt/stackstorm/packs
         # packs volume definition is required if st2.packs.volumes is enabled
 
         # example using persistentVolumeClaim:
-        persistentVolumeClaim:
-          claimName: pvc-st2-packs
+        #persistentVolumeClaim:
+        #  claimName: pvc-st2-packs
 
         # example using NFS:
         #nfs:
@@ -200,16 +200,12 @@ st2:
         #    clusterNamespace: rook-ceph
         #    path: /st2/packs
 
-      virtualenvs:
-        persistentVolumeClaim:
-          claimName: pvc-st2-virtualenvs
+      virtualenvs: {}
         # mounted to /opt/stackstorm/virtualenvs
         # virtualenvs volume definition is required if st2.packs.volumes is enabled
         # see the examples under st2.packs.volumes.packs
 
-      configs:
-        persistentVolumeClaim:
-          claimName: pvc-st2-configs
+      configs: {}
         # mounted to /opt/stackstorm/configs
         # configs volume definition is optional, but only used if st2.packs.volumes is enabled
         # Anything in `st2.packs.configs` will be added to this volume automatically on helm install/upgrade.
@@ -489,7 +485,7 @@ st2api:
 # https://docs.stackstorm.com/reference/ha.html#st2stream
 # Multiple st2stream process can be behind a load balancer in an active-active configuration.
 st2stream:
-  replicas: 1
+  replicas: 2
   resources:
     requests:
       memory: "100Mi"
@@ -532,7 +528,7 @@ st2stream:
 # https://docs.stackstorm.com/reference/ha.html#st2rulesengine
 # Multiple st2rulesengine processes can run in active-active with only connections to MongoDB and RabbitMQ. All these will share the TriggerInstance load and naturally pick up more work if one or more of the processes becomes unavailable.
 st2rulesengine:
-  replicas: 1
+  replicas: 2
   resources:
     requests:
       memory: "75Mi"
@@ -595,7 +591,7 @@ st2timersengine:
 st2workflowengine:
   # k8 pod timeout.  set this to a few seconds longer than st2 config workflow_engine.exit_still_active_check
   terminationGracePeriodSeconds: 300
-  replicas: 1
+  replicas: 2
   resources:
     requests:
       memory: "200Mi"
@@ -626,7 +622,7 @@ st2workflowengine:
 # https://docs.stackstorm.com/reference/ha.html#st2scheduler
 # TODO: Description TBD
 st2scheduler:
-  replicas: 1
+  replicas: 2
   resources:
     requests:
       memory: "75Mi"
@@ -657,7 +653,7 @@ st2scheduler:
 # https://docs.stackstorm.com/reference/ha.html#st2notifier
 # st2notifier runs in active-active mode and requires for that coordination backend like Redis or Zookeeper
 st2notifier:
-  replicas: 1
+  replicas: 2
   resources:
     requests:
       memory: "75Mi"
@@ -692,7 +688,7 @@ st2actionrunner:
   # k8 pod timeout.  set this to a few seconds longer than st2 config actionrunner.exit_still_active_check and set
   # actionrunner.graceful_shutdown = True
   terminationGracePeriodSeconds: 300
-  replicas: 2
+  replicas: 5
   resources:
     requests:
       memory: "200Mi"
