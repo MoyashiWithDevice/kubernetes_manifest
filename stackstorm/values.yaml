@@ -853,7 +853,21 @@ st2client:
   # k8s will run the script in the st2 container in parallel with the ENTRYPOINT.
   # The pod will not be marked as "running" until this script completes successfully.
   # see: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/
-  postStartScript: ""
+  # add Self
+  postStartScript: |
+    #!/bin/bash
+    set -e
+    PACKS_DIR="/opt/stackstorm/packs/my-workflows"
+
+    if [-d "$PACKS_DIR/.git"]; then
+      echo "Pulling latest workflows..."
+      cd "$PACKS_DIR" && git pull
+    else
+      echo "Cloning workflows from Repository..."
+      git clone https://gitlab.newvia.net/bababa_grp/stackstorm_workflow.git "$PACKS_DIR"
+    fi
+    st2ctl reload --register-packs
+
   # mount extra volumes on the st2client pod (primarily useful for k8s-provisioned secrets)
   ## Note that Helm templating is supported in 'mount' and 'volume'
   extra_volumes: []
