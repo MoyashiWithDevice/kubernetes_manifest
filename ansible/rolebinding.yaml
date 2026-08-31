@@ -1,0 +1,29 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: for-stackstorm
+  namespace: ansible
+roleRef:
+  kind: Role
+  name: ansible-handler
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+- kind: ServiceAccount
+  name: stackstorm-ha
+  namespace: stackstorm
+  apiGroup: rbac.authorization.k8s.io
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: ansible-handler
+  namespace: ansible
+rules:
+- apiGroup: [""]
+  resources: ["pods", "pods/exec"]
+  verbs: ["get", "list", "watch", "create"]
+- apiGroup: ["apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list", "watch"]
