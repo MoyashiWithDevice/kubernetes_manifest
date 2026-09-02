@@ -1,0 +1,26 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: stackstorm-gitlab-runner
+  namespace: stackstorm
+rules:
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["get", "patch"]
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: stackstorm-gitlab-runner-rolebinding
+  namespace: stackstorm
+subjects:
+- kind: ServiceAccount
+  name: gitlab-sa
+  namespace: gitlab
+roleRef:
+  kind: Role
+  name: stackstorm-gitlab-runner
+  apiGroup: rbac.authorization.k8s.io
