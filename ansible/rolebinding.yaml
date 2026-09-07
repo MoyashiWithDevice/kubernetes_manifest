@@ -21,7 +21,7 @@ metadata:
   namespace: ansible
 rules:
 - apiGroups: [""]
-  resources: ["pods", "pods/exec", "service", "service/exec"]
+  resources: ["pods", "pods/exec", "services", "services/exec"]
   verbs: ["get", "list", "watch", "create"]
 - apiGroups: ["apps"]
   resources: ["deployments"]
