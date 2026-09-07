@@ -70,6 +70,20 @@ spec:
               secretKeyRef:
                 name: git-url
                 key: repo-url
+      - name: git-clone-status
+        image: alpine/git:2.52.0
+        command: ["/bin/sh", "-c"]
+        args:
+        - "git clone --branch main --depth 1 $(GIT_URL_SIG) /signature"
+        volumeMounts:
+        - name: sigdir
+          mountPath: "/signature"
+        env:
+          - name: GIT_URL_SIG
+            valueFrom:
+              secretKeyRef:
+                name: git-url
+                key: repo-url-sig
       containers:
       - name: ansible-executor
         image: alpine/ansible:2.21.0
@@ -85,7 +99,11 @@ spec:
         volumeMounts:
         - name: appdir
           mountPath: "/app"
+        - name: sigdir
+          mountPath: "/signature"
         workingDir: "/app"
       volumes:
       - name: appdir
+        emptyDir: {}
+      - name: sigdir
         emptyDir: {}

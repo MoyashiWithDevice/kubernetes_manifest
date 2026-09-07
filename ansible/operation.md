@@ -4,7 +4,10 @@
 ### Attribute
 * repo-url
     * Githubからansibleリポジトリをクローンするために使用
-    * ```https://{USERNAME}:{TOKEN}@github.com/{REPOSITORY}.git```
+    * ```https://{USERNAME}:{TOKEN}@gitlab.newvia.net/{REPOSITORY}.git```
+* repo-url-sig
+    * GitLabからstatus-signatureリポジトリをクローンするために使用
+    * ```https://{USERNAME}:{TOKEN}@gitlab.newvia.net/{REPOSITORY}.git```
 * vault-password
     * ansibleコンテナ内でansible-vaultによって暗号化されたファイルを復号するために使用 
 
