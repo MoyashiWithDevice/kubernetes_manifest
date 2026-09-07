@@ -736,7 +736,7 @@ st2actionrunner:
   postStartScript: |
     #!/bin/bash
     set -e
-    apt-get update && apt-get install -y git
+    apt-get update && apt-get install -y git jq
     
     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
     chmod +x kubectl
