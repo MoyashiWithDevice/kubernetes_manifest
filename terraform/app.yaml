@@ -45,7 +45,7 @@ spec:
         - |
           terraform init
           terraform -install-autocomplete
-          sleep 3600
+          sleep infinity
         volumeMounts:
         - name: repository
           mountPath: /app
