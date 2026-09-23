@@ -75,11 +75,11 @@ spec:
             secretKeyRef:
               name: tf-secret
               key: vm-username
-        - name: TF_VAR_VM_PASSWORD
+        - name: TF_VAR_VM_PUBKEY
           valueFrom:
             secretKeyRef:
               name: tf-secret
-              key: vm-password
+              key: vm-pubkey
       restartPolicy: Always
 
       volumes:
